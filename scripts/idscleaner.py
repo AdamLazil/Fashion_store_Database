@@ -1,6 +1,7 @@
 # i need trimm first two numbers from ids number and make distinct ids
 # and save it to new excel file
 
+
 import pandas as pd
 
 input_file = "E:/práce/firmy/obchid/ekonomické/analýza/FashionStoreDatabse/dataSets/dataToClean/DistinctLabelsToClean.xlsx"
