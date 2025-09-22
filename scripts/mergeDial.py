@@ -11,7 +11,7 @@ main_file = (
     "E:/práce/firmy/obchid/ekonomické/analýza/Databaze/data/pohyb_united_backUp.xlsx"
 )
 main_df = pd.read_excel(main_file, sheet_name="final")
-main_df["ids_2"] = main_df["ids_2"].astype(str)
+main_df[["ids_2", "ids"]] = main_df[["ids_2", "ids"]].astype(str)
 # print("Columns in main_df:", main_df.columns.tolist())
 
 
@@ -21,8 +21,8 @@ ids_dial_df = pd.read_excel(dial_file)
 ids_dial_df["ids"] = ids_dial_df["ids"].astype(str)
 
 
-# add label ST_C to final table where ids_2 length is 6 and column is not equal values "ST", "C", "STM"
-mask = (main_df["ids_2"].str.len() == 6) & (~main_df["label"].isin(["ST", "C", "STM"]))
+# add label ST_C to final table where ids_2 length is 6 and column label equal "NEPRAVDA"
+mask = (main_df["ids"].str.len() == 6) & (~main_df["label"].isin(["ST", "C", "STM"]))
 main_df.loc[mask, "label"] = "ST_C"
 
 
@@ -36,6 +36,10 @@ main_df["Type"] = main_df.apply(
 )
 
 
-main_df.to_excel(output_file, index=False)
+main_df.to_excel(
+    "E:/práce/firmy/obchid/ekonomické/analýza/Databaze/data/pohyb_united_backUp_python.xlsx",
+    index=False,
+    engine="openpyxl",
+)
 print("Merging completed. Merged data saved to", output_file)
 print("➡️ Počet nově označených ST_C:", mask.sum())
