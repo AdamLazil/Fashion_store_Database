@@ -16,7 +16,7 @@ alias_dict = {
     "Ragman": ["rag", "rgm", "ragmp", "rg"],
     "Dakidaya": ["dk", "dak", "dakid", "daya"],
     "Elwesssi": ["elw", "elwessi", "elwess"],
-    "La Pinta": ["lp", "lap", "lapint", "lapinta", "lpd"],
+    "La Pinta": ["lp", "lap", "lapint", "lapinta", "lpd", "la"],
     "Guero": ["guer", "gueroo", "guerooo", "g.u.e.r.o"],
     "Callaghan": [
         "call",
@@ -46,7 +46,7 @@ alias_dict = {
     "Calamar": ["calam", "cal"],
     "IT": ["itshoes", "itsh", "it shoes"],
     "Dí": ["di"],
-    "Brenda Zaro": ["brenda", "bz", "bzd", "brendazaro"],
+    "Brenda Zaro": ["brenda", "bz", "bzd", "brendazaro", "b zaro"],
     "Mago": ["ma", "magod", "m", "mg", "mgd"],
     "Membur": ["menbur"],
     "Pikolinos": ["pik" "piko", "pikd", "pikp"],
