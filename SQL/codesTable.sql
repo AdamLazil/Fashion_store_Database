@@ -44,8 +44,20 @@ values
 	   ('Boty', 987)
 	 ;
 	   
-	 select * from clothes_code cc   
-	   
+create table form_codes (
+code smallint primary key,
+form_name text
+);
+
+insert into form_codes (code, form_name)
+values 
+	(10, 'Prodejky'),
+	(8, 'Prevod'),
+	(6, 'Prijemky'),
+	(7, 'Vydejky')
+;
+
+
 	   
 	   
 	   
