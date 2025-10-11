@@ -136,17 +136,22 @@ product_norm text, -- control value for code
 clothes_code smallint
 );
 
+
 alter table movements_all
 add constraint clothes
 foreign key(clothes_code) references clothes_code(code);
 
+delete from movements_all 
+where clothes_code =13;
+
 
 copy movements_all
-from 'C:\Program Files\PostgreSQL\17\data\TopFashion\mergedCleanToSql\item_movements.csv'
+from 'C:\Program Files\PostgreSQL\17\data\TopFashion\mergedCleanToSql\item_movements_ver.csv'
 with (format csv, header, delimiter ';', encoding 'win1250');
 
 
-
+select * from movements_all ma
+where clothes_code = 13;
 
 
 
