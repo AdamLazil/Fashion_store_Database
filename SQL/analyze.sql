@@ -3,62 +3,341 @@
 -- Questions
   -- prijem zbozi
 	 -- kolik bylo v jednotlivych letech naprijmano zbozi celkove ?
+	
+	with cte as (
+	select 
+		  sum(amount),
+		  extract(year from date) as year
+	from reception
+	where amount <= 6
+	group by extract(year from date) 
+	order by extract(year from date)
+	),
+	cte2 as (
+	select
+		 sum(amount_left),
+		 extract(year from date) as year
+	from reception
+	where extract(year from date) = 1900 and
+	amount_left > 0
+	group by extract(year from date)
+	)
+	select * from cte
+	union 
+	select * from cte2
+	order by year
+	;
+	
+	-- verze 2 podle reciept code
+	select 
+		  sum(amount),
+		  substring(reciept_id,1,2) as year
+	from reception
+	where amount <= 6
+	group by substring(reciept_id,1,2)
+	order by substring(reciept_id,1,2)
+	;
+	
+	
+
 	 -- kolik kusu podle druhu zbozi ?
+	
+	select * from reception;
+	
+	copy(
+	select product,
+	   sum(amount)filter(where extract(year from date) = 2017) as cn2017,
+	   sum(amount)filter(where extract(year from date) = 2018) as cn2018,
+	   sum(amount_left)filter(where extract(year from date) = 1900) as cn2019,
+	   sum(amount)filter(where extract(year from date) = 2020) as cn2020,
+	   sum(amount)filter(where extract(year from date) = 2021) as cn2021,
+	   sum(amount)filter(where extract(year from date) = 2022) as cn2022,
+	   sum(amount)filter(where extract(year from date) = 2023) as cn2023,
+	   sum(amount)filter(where extract(year from date) = 2024) as cn2024,
+	   sum(amount)filter(where extract(year from date) = 2025) as cn2025
+from reception
+where amount_left > 0 and amount_left < 10 or null
+group by rollup(product)
+)
+to 'C:\Program Files\PostgreSQL\17\data\TopFashion\export\prijatezbozidruh.csv'
+with(format csv, header, delimiter ';');
+	
 	 -- kolik kusu podle znacky ?
+	 
+	 
 
 
 
-  -- prodej zbozi
+
+	 -- kolik podle prodejen ?
+
+
+
+
+
+	-- kolik ks bot podle znacky v jednotlivych letech ?
+	
+	
+
+	
+	
+
+
+  ----------- prodej zbozi
 	 -- kolik se prodalo v jednotlivych letech zbozi celkove ?
+	 
+	 select * from sales_final sf ;
+	 select
+	 	year,
+	 	count(*),
+	 	sum(price_brutto)
+	 from sales_final
+	 group by year
+	 order by year asc;
+	 
+	
 	 -- kolik kusu podle druhu zbozi ?
 	 -- kolik kusu podle druhu znacky ?
      -- v jakem casovem rozmezi(podle hodin) jsou uskutecneny nejvetsi prodeje ?
 	 -- v jakem obdobi se prodava nejmene (mesice) ?
 	 -- podle velikosti ? 
+	 
+	 
 	 -- nejprodavanejsi vec ?
-     
-
-
-
--- 
-select * from storage;
-select * from movements_all ma ;
-
--- according datcreate
-select 
-	 sum(amount),
-	 sum(buy),
-	 sum(pricewage)
-from(
-	select sum(amount) as amount,
-		   sum(price_buy) as buy,
-		   sum(amount * price_buy) as pricewage
-	from storage
-	where extract(year from datcreate) = 2017 and creator in ('t1', 't2','t3') 
-	group by amount, price_buy
-	having amount > 0
-	);
-
-----
-select sum(amount)
-from(
-	select * from "storage" s 
-	where datcreate < '2017-12-31'
-	and amount > 0);
-
---- remove duplicity values
-
-start transaction;
-
-with cte as (
-select * 
-from storage
-where extract(year from datcreate) = extract(year from datsave )
-)
-select sum(cte.amount)
-from cte
-where cte.amount > 0 and extract(year from cte.datcreate) = 2021
+	 select * from sales_final
+		where store = 't3';
+	 
+	 
+	 
+	 
+	 select
+	 		product,
+	 		count(product)
+	 from sales_final
+	 group by product
+	 order by count(product) desc;
+	 
+	 -- po letech ?
+	 
+	 select product,
+	   count(*)filter(where year = 2017) as cn2017,
+	   count(*)filter(where year = 2018) as cn2018,
+	   count(*)filter(where year = 2019) as cn2019,
+	   count(*)filter(where year = 2020) as cn2020,
+	   count(*)filter(where year = 2021) as cn2021,
+	   count(*)filter(where year = 2022) as cn2022,
+	   count(*)filter(where year = 2023) as cn2023,
+	   count(*)filter(where year = 2024) as cn2024,
+	   count(*)filter(where year = 2025) as cn2025
+from sales_final
+group by rollup(product)
 ;
+	 
+		-- po mesicich pro vybrane produkty?
+
+			select 
+				product,
+				extract(month from date) as month,
+				count(product)
+			from sales_final
+			where year = 2024 and product = 'Saty'
+			group by extract(month from date),product;
+			
+			
+	 
+	 -- kolik kusu zbozi je v prumeru na jednu prodejku ?
+	 
+	 select * from sales_final ;
+	 
+	 -- prumer
+	 with cte as (
+	 select
+	 	year,
+	 	reciept,
+	 	count(name) as pocet_na_r
+	 from sales_final sm
+	 where name not ilike 'sleva%'
+	 group by reciept,year
+	 )
+	 select
+	 	  year,
+	 	  avg(c.pocet_na_r) as prumer
+	 from cte c
+	 group by year
+	 ;
+	 	
+	 -- median
+	 
+	 with cte_cont as (
+	  select
+	 	year,
+	 	reciept,
+	 	count(name) as pocet_na_r
+	 from sales_final sm
+	 where name not ilike 'sleva%'
+	 group by reciept,year
+	 )
+	 select
+	 	  year,
+	 	  PERCENTILE_CONT(0.5)within group(order by pocet_na_r) as cont
+	 from cte_cont
+	 group by year
+	 ;
+	 
+	 
+	 
+	 
+	 -- prumerna utrata na prodejku po mesicich ?
+	 -- udeleno slev a vycisleni po letech ?
+	 	-- v jake vysi procent byla sleva udelana ?
+	 
+	 select * from sales_final sf ;
+	 
+	 -- sleva je ve dvou podobach. Ve sloupci discount a potom v name. Nejdrive se musi vypocitat discount ktery je procentne vzcislen a nasledne sleva y name ktera je na prodejku
+	 
+	 
+	 select 
+	 	  year,
+	 	  count(sf.discount),
+	 	  sum((discount::numeric(10,2)/100)*(price_netto)) as discountgive,
+	 	  (select
+	 	  		count(sf3.name) 
+	 	  	from sales_final sf3
+	 	  	where name ilike 'sleva%' and
+	 	  	sf.year = sf3.year) as count_2,
+	 	  (select
+	 	  		sum(abs(sf2.price_brutto_bd))
+	 	  	from sales_final sf2 
+	 	  	where name ilike 'sleva%'
+	 	  	and sf.year = sf2.year) as discountgive_2
+	 from sales_final sf 
+	 where discount > 0
+	 group by year
+	 order by year asc
+	 ;
+	 	-- 
+
+	 
+	 
+	 -- podle prodejen
+	 
+	  select 
+	 	  year,
+	 	  establishmnet as prodejna,
+	 	  count(sf.discount),
+	 	  sum((discount::numeric(10,2)/100)*(price_netto)) as discountgive
+	 from sales_final sf 
+	 where name ilike 'sleva%' or discount > 0
+	 group by year, establishmnet
+	 order by year asc;
+	  
+	
+	  ---- podle prodejen usporadane
+SELECT 
+    year,
+    SUM(CASE WHEN establishmnet = 't1' THEN 1 ELSE 0 END) AS count_zlin,
+    SUM(CASE WHEN establishmnet = 't1' THEN (discount/100.0)*price_netto ELSE 0 END) AS sum_zlin,
+    SUM(CASE WHEN establishmnet = 't2' THEN 1 ELSE 0 END) AS count_luhacovice,
+    SUM(CASE WHEN establishmnet = 't2' THEN (discount/100.0)*price_netto ELSE 0 END) AS sum_luhacovice,
+    SUM(CASE WHEN establishmnet = 't3' THEN 1 ELSE 0 END) AS count_butik,
+    SUM(CASE WHEN establishmnet = 't3' THEN (discount/100.0)*price_netto ELSE 0 END) AS sum_butik
+FROM sales_final
+WHERE discount > 0
+GROUP BY year
+ORDER BY year;
+	  
+	  
+
+-- podle procent sloupce discount
+select 
+	discount as perc_dis,
+	count(discount) as pocet
+from sales_final sf
+where discount > 0
+group by sf.discount
+having count(discount) > 1;
+
+
+
+-- podle sleva na prodejku ve sloupci name
+
+select 
+	name as perc_dis,
+	count(name) as pocet
+from sales_final sf
+where name ilike 'sleva%'
+group by sf.name
+having count(name) > 6;
+	 
+			---------- vykon outletu -------------
+			select * from SALES_FINAL;
+			select * from sales_merged sm ;
+
+			select
+				 year,
+				 date_part('hour', datcreate) as hour,
+				 sum(price_netto),
+				 count(distinct(reciept))
+			from sales_final sf 
+			where store = 't1' and establishment = 'OutletZlín'
+			group by year,date_part('hour', datcreate);
+			
+			-- crosstab
+				
+			
+			
+			--------- vykon Zlin -------------
+			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
+	 
+
+-------------- skladove zasoby (od roku 2021 presne udaje, do roku 2021 nepresne)------------
+	-- kolik ks zbozi bylo na konci roku ve skladch celkove ?
+
+	select * from storage21_25clothes sc ;
+	
+	select 	
+		 year,
+		 sum(amount)
+	from storage21_25clothes sc 
+	group by "year" ;
+	
+	select * from storage17_20 s ;
+	select 
+		 extract(year from datcreate) as year,
+		 sum(amount)
+	from storage17_20
+	where ean in (
+					select
+							distinct(ean)
+					from storage17_20)
+	group by extract(year from datcreate);
+	
+	
+select 
+	count(*),
+	extract(year from s.datcreate )
+from storage17_20 s
+where amount > 0
+group by extract(year from s.datcreate )
+union all
+select 
+	count(distinct(ean)),
+	extract(year from s.datcreate )
+from storage17_20 s 
+where amount > 0
+group by extract(year from s.datcreate);
+
+	
+	-- kolik ks zbozi bylo na konci roku ve skladch po prodejnach ?
+	
+	-- ktereho zbozi zustava nejvice ?
+
+
+
+
+
+
+
 
 
 
@@ -79,7 +358,7 @@ where extract (year from ps.reciept_date) = 2018
 group by ci.establishment,ifi.form_name,extract(month from ps.reciept_date)
 order by month asc;
 
-
+-- terminal section
 
 select  
 	count(id_ct)
@@ -130,6 +409,7 @@ group by terminal_code
 select * from card_transactions ct ;
 
 
+-- poplatky na terminalu po prodejnach
 
 with costs_cte as (
 select terminal_code,
@@ -147,17 +427,57 @@ select
 	(trans_cost + bank_cost + card_cost) as total_cost,
 	total_income_clear
 from costs_cte
+order by year_cc
 ;
 
 
 ---------- Storage
+select * from storage21_25clothes sc ;
 
+SELECT
+    product,
+    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
+    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
+    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
+    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
+    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
+FROM storage21_25clothes
+GROUP BY rollup(product)
+ORDER BY product;
+--- porovnani s LAG
+with cte as (
+SELECT
+    product,
+    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
+    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
+    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
+    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
+    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
+FROM storage21_25clothes
+GROUP BY product
+ORDER BY product
+),
+cte2 as (
+select
+	  c.product,
+	  c.y2021 - c.y2022 as dif21,
+	  c.y2022 - c.y2023 as dif22,
+	  c.y2023 - c.y2024 as dif23,
+	  c.y2024 - c.y2025 as dif24   
+from cte c
+)
+select * from cte2
+;
+
+
+
+--
 select 
-	sum(amount),
-	sum(price_buy),
+	sum(amount) as pocet,
+	sum(price_buy) as value,
 	storage
 from storage21_25
-where year = '2021'
+where year = '2024'
 group by storage;
 
 
@@ -165,10 +485,10 @@ select count(*),
 	   sum(amount) as pocet,
 	   creator
 from storage17_20  
-where amount > 0 and extract(year from datcreate ) = 2017
+where amount > 0 and extract(year from datcreate ) = 2019
 group by rollup(creator) ;
 
-------------
+---- prodej bot vs prijem 
 with cte as (
 select 
 	   extract(year from datcreate) as year,
@@ -197,3 +517,9 @@ from cte c
 left join cte2 cc on c.year = cc.year
 order by c.year asc
 ;
+
+
+select count(distinct(ean_code)),
+	   sum(amount_left)
+from reception r 
+where product = 'Boty' and extract(year from date) = 2023;
