@@ -16,5 +16,17 @@ The goal was to convert fragmented and incompatible data from formats such as **
 
 ## 📌 Project goals
 
-- ↗️ Data integration from various formats (Excel sheets, word, emails, old Access databases, hand written notes)
--
+- ↗️ **Data integration** from various formats (Excel sheets, word, emails, old Access databases, hand written notes)
+- 🧹 **Data cleaning and consolidation** — removing duplicates, unifying names, normalizing text and data formats.
+- 🧠 **Filling in missing data using Python** — fuzzy matching of brands, products, and codes.
+- 📈**Preparing data for analytical purposes** — creating clear SQL tables and Power BI dashboards.
+
+## 🔍 Tools & Technologies
+
+| Area              | Technology                                                      |
+| ----------------- | --------------------------------------------------------------- |
+| :---              | :---                                                            |
+| ETL/Data Cleaning | Python, Power Query                                             |
+| Database          | PostgreSQL/ SQL                                                 |
+| Visualization     | Power BI                                                        |
+| Sources           | Excel (.xlsx), Word(.docx), Access(.accdb), CSV, e-mail exports |
