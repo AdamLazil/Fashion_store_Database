@@ -135,8 +135,8 @@ order by c.year asc
 	select
 		  substring(reciept_id,1,2) as year,
 		  extract(month from date),
-		  sum(amount),
-		  sum(price_buy)
+		  sum(amount) as pocet,
+		  sum(price_buy) as cena
 	from reception
 	where amount <= 6
 	and substring(reciept_id,1,2) = substring(cast(extract(year from date) as varchar),3,2)
@@ -171,19 +171,51 @@ order by c.year asc
     	"25" numeric
 	)	
 		;
-select distinct(substring(cast(extract(year from date) as varchar),3,2)) as year_code
-	from reception
-	order by year_code
-		$$
 
-select  
-substring(cast(extract(year from date) as varchar),3,2)
-from reception;
 
 	
 	
   								----------- prodej zbozi -----------------
 
+		-- pocet prodejek 
+explain(	
+SELECT
+    sf_t2.year,
+    COUNT(DISTINCT sf_t2.reciept) AS luhacovice,
+    COUNT(DISTINCT sf_t1.reciept) AS zlín
+FROM sales_final sf_t2
+LEFT JOIN sales_final sf_t1
+    ON sf_t1.year = sf_t2.year
+   AND sf_t1.store = 't1'
+WHERE sf_t2.store = 't2'
+GROUP BY sf_t2.year
+ORDER BY sf_t2.year);
+
+------ cte
+WITH t1 AS (
+    SELECT year, COUNT(DISTINCT reciept) AS zlín
+    FROM sales_final
+    WHERE store = 't1'
+    GROUP BY year
+),
+t2 AS (
+    SELECT year, COUNT(DISTINCT reciept) AS luhacovice
+    FROM sales_final
+    WHERE store = 't2'
+    GROUP BY year
+)
+SELECT
+    COALESCE(t2.year, t1.year) AS year,
+    t2.luhacovice,
+    (t2.luhacovice - lag(t2.luhacovice)over(order by year))as dif_luha,
+    t1.zlín,
+    (t1.zlín - lag(t1.zlín)over(order by year))as dif_zlin
+FROM t2
+FULL JOIN t1 USING (year)
+ORDER BY year;
+	
+	
+	
 
 	 -- kolik se prodalo v jednotlivych letech zbozi celkove ?
 	 
@@ -257,7 +289,7 @@ group by rollup(product)
 				extract(month from date) as month,
 				count(product)
 			from sales_final
-			where year = 2020 and product = 'Boty'
+			where year = 2025 and product = 'Boty'
 			group by extract(month from date),product;
 			
 			
@@ -289,7 +321,7 @@ group by rollup(product)
 	 order by year asc
 	 ;
 	 
-	 -- 
+	 -- luhacovice
 	 with cte as (
 	 select
 	 	year,
@@ -332,6 +364,20 @@ group by rollup(product)
 	 
 	 
 	 -- prumerna utrata na prodejku po mesicich ?
+	 
+	 select 
+	 	avg(price_netto) as prumer,
+	 	sum(price_netto) / count(reciept)
+	 from sales_final sf 
+	 where form = 2
+	 and store = 't2';
+	 
+	  select 
+	 	avg(price_netto) as prumer
+	 from sales_final sf 
+	 where form = 5
+	  and store = 't2';
+	 
 	 -- udeleno slev a vycisleni po letech ?
 	 	-- v jake vysi procent byla sleva udelana ?
 	 
@@ -412,36 +458,37 @@ from sales_final sf
 where name ilike 'sleva%'
 group by sf.name
 having count(name) > 6;
-	 
-			---------- vykon outletu -------------
-			select * from SALES_FINAL;
-			select * from sales_merged sm ;
 
-			select
+select * from sales_final;
+	 
+---------- vykon outletu -------------
+select * from sales_final;
+select * from sales_merged sm ;
+
+select
 				 year,
 				 date_part('hour', datcreate) as hour,
 				 sum(price_netto),
 				 count(distinct(reciept))
-			from sales_final sf 
-			where store = 't1' and establishment = 'OutletZlín'
-			group by year,date_part('hour', datcreate);
+from sales_final sf 
+where store = 't1' and establishment = 'OutletZlín'
+group by year,date_part('hour', datcreate);
 			
 			-- crosstab
-				select *
-				from crosstab(
-				$$
-				 select
-				 	date_part('hour', datcreate)::int as hour,
-				 	year::int as year,
-				 	sum(price_netto)::numeric as total
-				 from sales_final
-				 where store = 't1' and establishment = 'OutletZlín'
-				 group by year, date_part('hour', datcreate)
-				 order by 1,2
-				 $$
-				 --$$select distinct year from sales_final order by year$$
-				)as ct(hour int, "2022" numeric, "2023" numeric);
-			
+select *
+from crosstab(
+$$
+	select
+	date_part('hour', datcreate)::int as hour,
+	year::int as year,
+	sum(price_netto)::numeric as total
+	from sales_final
+	where store = 't1' and establishment = 'OutletZlín'
+	group by year, date_part('hour', datcreate)
+	order by 1,2
+$$
+)as ct(hour int, "2022" numeric, "2023" numeric);
+		
 			
 			--------- vykon Zlin -------------
 			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
@@ -455,26 +502,26 @@ having count(name) > 6;
 			where store = 't1' and establishment != 'OutletZlín'
 			group by year,date_part('hour', datcreate);
 			
-			select *
-				from crosstab(
-				$$
-				 select
-				 	date_part('hour', datcreate)::int as hour,
-				 	year::int as year,
-				 	sum(price_netto)::numeric as total
-				 from sales_final
-				 where store = 't1' and establishment != 'OutletZlín'
-				 group by rollup(year, date_part('hour', datcreate))
-				 order by 1,2
-				 $$,
-				 $$select distinct year from sales_final order by year$$
-				)as ct(hour int,"2017" numeric,"2018" numeric,"2019" numeric,"2020" numeric,"2021" numeric, "2022" numeric, "2023" numeric,"2024" numeric,"2025" numeric)
+select *
+from crosstab(
+	 $$
+	 select
+	 	date_part('hour', datcreate)::int as hour,
+	 	year::int as year,
+	 	sum(price_netto)::numeric as total
+	 from sales_final
+	 where store = 't1' and establishment != 'OutletZlín'
+	 group by rollup(year, date_part('hour', datcreate))
+	 order by 1,2
+	 $$,
+	 $$select distinct year from sales_final order by year$$
+)as ct(hour int,"2017" numeric,"2018" numeric,"2019" numeric,"2020" numeric,"2021" numeric, "2022" numeric, "2023" numeric,"2024" numeric,"2025" numeric)
 			;
 	 
 			--------- vykon Luhacovice -------------
 			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
 			
-				select
+			select
 				 year,
 				 date_part('hour', datcreate) as hour,
 				 sum(price_netto),
