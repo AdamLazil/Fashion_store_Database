@@ -241,7 +241,6 @@ ORDER BY year;
 		where store = 't3';
 	 
 	 
-	 
 	 with cte as (
 	 select
 	 		product,
@@ -298,9 +297,7 @@ group by rollup(product)
 	 
 	 select * from sales_final 
 	 ;
-	 
-
-	 
+	  
 	 -- prumer pro zlin
 	 with cte as (
 	 select
@@ -377,6 +374,27 @@ group by rollup(product)
 	 from sales_final sf 
 	 where form = 5
 	  and store = 't2';
+	  
+	  select
+	  		percentile_cont(0.8)within group(order by price_netto)
+	  from sales_final sf ;
+	 
+	  
+	 --- prumerna cena prodejky pri nakupu vice jak 2 polozek 
+	 with cte as ( 
+	 select 
+	 	  reciept,
+	 	  sum(price_netto) as cena,
+	 	  count(name) as pocet_pr
+	 from sales_final sf 
+	 where form = 5
+	 group by reciept
+	 having count(name)>2
+	 )
+	 select
+	 	  avg(c.cena) as prumer
+	 from cte c
+	 ;
 	 
 	 -- udeleno slev a vycisleni po letech ?
 	 	-- v jake vysi procent byla sleva udelana ?

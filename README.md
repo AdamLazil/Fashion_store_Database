@@ -25,7 +25,7 @@ The goal was to convert fragmented and incompatible data from formats such as **
 
 | Area              | Technology                                                      |
 | ----------------- | --------------------------------------------------------------- |
-| :---              | :---                                                            |
+| :                 | :                                                               |
 | ETL/Data Cleaning | Python, Power Query                                             |
 | Database          | PostgreSQL/ SQL                                                 |
 | Visualization     | Power BI                                                        |
