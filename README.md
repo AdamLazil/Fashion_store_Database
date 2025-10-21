@@ -33,20 +33,20 @@ The goal was to convert fragmented and incompatible data from formats such as **
 ## ⚙️ Proces overview
 
 1.  **Data collection**<br>
-    -> creation of a data warehouse for the necessary data
+    -> creation of a data warehouse for the necessary data<br>
     2 - **Data check** (first filtering)<br>
-    -> data integrity check and sorting into usable and expendable
+    -> data integrity check and sorting into usable and expendable<br>
     3 - **Data transform**<br>
-    -> unification of data into the same format with Power Query and Python
+    -> unification of data into the same format with Power Query and Python<br>
     4 - **Cleaning the data**(second filtering)<br>
-    -> removal of duplicates and invalid data
+    -> removal of duplicates and invalid data<br>
     5 - **Data addition and transform**<br>
-    -> creating new columns and auxiliary tables
+    -> creating new columns and auxiliary tables<br>
     6 - **Database**<br>
-    -> creating a database structure
+    -> creating a database structure<br>
     7 - **Data transfer**<br>
-    -> import data to database
+    -> import data to database<br>
     8 - **Analyze**<br>
-    -> creating a query based on selected questions
+    -> creating a query based on selected questions<br>
     9 - **Dashboard and report**<br>
     -> Power Bi dashboard and
