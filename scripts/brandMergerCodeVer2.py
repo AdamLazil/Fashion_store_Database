@@ -35,18 +35,6 @@ ref["ZNACKA_NORM"] = ref["ZNACKA"].progress_apply(normalize)
 
 brands = ref["ZNACKA_NORM"].dropna().unique().tolist()
 
-"""
-# ---------- testovací alias slovník ----------
-test_text = "flu p boty oceano"
-candidates = process.extract(
-    test_text, brands, scorer=fuzz.partial_token_set_ratio, limit=2
-)
-
-print("test print:", test_text)
-for cand, score in candidates:
-    print(f"  Candidate: {cand:20s}, Score: {score}")
-"""
-
 
 # function for finding brand if empty
 def find_brand_if_empty(row):
@@ -109,10 +97,7 @@ df = df.merge(
     right_on="PRODUKT_NORM",
 )
 
-# ---------- 6. Výsledek ----------
-# print(df[["NAME", "BRAND", "PRODUCT", "KOD"]])
-
-# print("numbers of rows:", len(df))
+# ---------- 6. Uložit výsledky ----------
 
 
 df.to_excel(
@@ -120,10 +105,5 @@ df.to_excel(
     index=False,
     engine="openpyxl",
 )
-""""
-df.to_excel(
-    "E:/práce/firmy/obchid/ekonomické/analýza/Databaze/data/brandMreged/TEST2CODEPython.xlsx",
-    index=False,
-)
-"""
-print("Hotovo ✅ Výsledky jsou uložené do TEST2CODEPython.xlsx")
+
+print("Hotovo ✅ Výsledky jsou uložené do finalTestPython.xlsx")
