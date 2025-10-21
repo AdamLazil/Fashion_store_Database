@@ -175,12 +175,12 @@ order by c.year asc
 	
   								----------- Sell section -----------------
 
-		-- pocet prodejek 
+		-- How many reciepts in total ?
 explain(	
 SELECT
     sf_t2.year,
-    COUNT(DISTINCT sf_t2.reciept) AS luhacovice,
-    COUNT(DISTINCT sf_t1.reciept) AS zlín
+    COUNT(DISTINCT sf_t2.reciept) AS luh,
+    COUNT(DISTINCT sf_t1.reciept) AS zl
 FROM sales_final sf_t2
 LEFT JOIN sales_final sf_t1
     ON sf_t1.year = sf_t2.year
@@ -191,13 +191,13 @@ ORDER BY sf_t2.year);
 
 ------ cte
 WITH t1 AS (
-    SELECT year, COUNT(DISTINCT reciept) AS zlín
+    SELECT year, COUNT(DISTINCT reciept) AS zl
     FROM sales_final
     WHERE store = 't1'
     GROUP BY year
 ),
 t2 AS (
-    SELECT year, COUNT(DISTINCT reciept) AS luhacovice
+    SELECT year, COUNT(DISTINCT reciept) AS luh
     FROM sales_final
     WHERE store = 't2'
     GROUP BY year
@@ -207,7 +207,7 @@ SELECT
     t2.luhacovice,
     (t2.luhacovice - lag(t2.luhacovice)over(order by year))as dif_luha,
     t1.zlín,
-    (t1.zlín - lag(t1.zlín)over(order by year))as dif_zlin
+    (t1.zlín - lag(t1.zlín)over(order by year))as dif_zl
 FROM t2
 FULL JOIN t1 USING (year)
 ORDER BY year;git status
@@ -215,7 +215,7 @@ ORDER BY year;git status
 	
 	
 
-	 -- kolik se prodalo v jednotlivych letech zbozi celkove ?
+	 -- How much total goods were sold in each year?
 	 
 	 select * from sales_final sf ;
 	 select
@@ -227,14 +227,8 @@ ORDER BY year;git status
 	 order by year asc;
 	 
 	
-	 -- kolik kusu podle druhu zbozi ?
-	 -- kolik kusu podle druhu znacky ?
-     -- v jakem casovem rozmezi(podle hodin) jsou uskutecneny nejvetsi prodeje ?
-	 -- v jakem obdobi se prodava nejmene (mesice) ?
-	 -- podle velikosti ? 
 	 
-	 
-	 -- nejprodavanejsi vec ?
+	 -- Best-selling item ?
 	 select * from sales_final
 		where store = 't3';
 	 
@@ -263,7 +257,7 @@ ORDER BY year;git status
 	 full join cte2 t2 on t1.product = t2.product	  
 	 order by (coalesce(t1.t1,0) + coalesce(t2.t2, 0)) desc;
 	 
-	 -- po letech ?
+	 -- how much of each product was sold in each year ?
 	 
 	 select product,
 	   count(*)filter(where year = 2017) as cn2017,
@@ -279,7 +273,7 @@ from sales_final
 group by rollup(product)
 ;
 	 
-		-- po mesicich pro vybrane produkty?
+		-- According months for choosen products 
 
 			select 
 				product,
@@ -291,12 +285,12 @@ group by rollup(product)
 			
 			
 	 
-	 -- kolik kusu zbozi je v prumeru na jednu prodejku ?
+	 -- How many pieces of merchandise are there on average per reciept?
 	 
 	 select * from sales_final 
 	 ;
 	  
-	 -- prumer pro zlin
+	 -- avg for t1
 	 with cte as (
 	 select
 	 	year,
@@ -316,7 +310,7 @@ group by rollup(product)
 	 order by year asc
 	 ;
 	 
-	 -- luhacovice
+	 -- avg for t2
 	 with cte as (
 	 select
 	 	year,
@@ -358,27 +352,51 @@ group by rollup(product)
 	 
 	 
 	 
-	 -- prumerna utrata na prodejku po mesicich ?
+	 -- Average spending per sale by form ?
 	 
-	 select 
-	 	avg(price_netto) as prumer,
-	 	sum(price_netto) / count(reciept)
-	 from sales_final sf 
-	 where form = 2
-	 and store = 't2';
 	 
-	  select 
+	 select
+	 	store,
+	 	form,
 	 	avg(price_netto) as prumer
 	 from sales_final sf 
-	 where form = 5
-	  and store = 't2';
-	  
+	 where form in (2,5)
+	 and store = 't2'
+	 group by store, form
+	 union all
 	  select
-	  		percentile_cont(0.8)within group(order by price_netto)
-	  from sales_final sf ;
+	  	store,
+	  	form,
+	 	avg(price_netto) as prumer
+	 from sales_final sf 
+	 where form in (2,5)
+	  and store = 't1'
+	  group by store, form;
+	  
+	  -- in main season
+	 
+	 select
+	 	store,
+	 	form,
+	 	avg(price_netto) as prumer
+	 from sales_final sf 
+	 where form in (2,5)
+	 and store = 't2'
+	 and extract(month from date) in (06,07,08,09,10)
+	 group by store, form
+	 union all
+	  select
+	  	store,
+	  	form,
+	 	avg(price_netto) as prumer
+	 from sales_final sf 
+	 where form in (2,5)
+	  and store = 't1'
+	  and extract(month from date) in (06,07,08,09,10)
+	  group by store, form;
 	 
 	  
-	 --- prumerna cena prodejky pri nakupu vice jak 2 polozek 
+	 --- average selling price when purchasing more than 2 items
 	 with cte as ( 
 	 select 
 	 	  reciept,
@@ -394,11 +412,9 @@ group by rollup(product)
 	 from cte c
 	 ;
 	 
-	 -- udeleno slev a vycisleni po letech ?
-	 	-- v jake vysi procent byla sleva udelana ?
 	 
-	 select * from sales_final sf ;
-	 
+	 -- How many discounts were granted in each year ?
+	 	
 	 -- sleva je ve dvou podobach. Ve sloupci discount a potom v name. Nejdrive se musi vypocitat discount ktery je procentne vzcislen a nasledne sleva y name ktera je na prodejku
 	 
 	 
@@ -421,11 +437,9 @@ group by rollup(product)
 	 group by year
 	 order by year asc
 	 ;
-	 	-- 
 
 	 
-	 
-	 -- podle prodejen
+	 -- According store
 	 
 	  select 
 	 	  year,
@@ -438,7 +452,7 @@ group by rollup(product)
 	 order by year asc;
 	  
 	
-	  ---- podle prodejen usporadane
+	  -- according store (better visual)
 SELECT 
     year,
     SUM(CASE WHEN store = 't1' THEN 1 ELSE 0 END) AS count_zlin,
@@ -453,8 +467,8 @@ GROUP BY year
 ORDER BY year;
 	  
 	  
-
--- podle procent sloupce discount
+-- What percentage was the discount given?
+-- by percentage of the discount column
 select 
 	discount as perc_dis,
 	count(discount) as pocet
@@ -465,7 +479,7 @@ having count(discount) > 1;
 
 
 
--- podle sleva na prodejku ve sloupci name
+-- by sales discount in the name column
 
 select 
 	name as perc_dis,
@@ -477,9 +491,10 @@ having count(name) > 6;
 
 select * from sales_final;
 	 
----------- vykon outletu -------------
-select * from sales_final;
-select * from sales_merged sm ;
+---------- Performance t3 -------------
+
+-- according hours and year
+
 
 select
 				 year,
@@ -506,7 +521,7 @@ $$
 )as ct(hour int, "2022" numeric, "2023" numeric);
 		
 			
-			--------- vykon Zlin -------------
+			--------- Performance t1 -------------
 			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
 			
 			select
@@ -534,7 +549,7 @@ from crosstab(
 )as ct(hour int,"2017" numeric,"2018" numeric,"2019" numeric,"2020" numeric,"2021" numeric, "2022" numeric, "2023" numeric,"2024" numeric,"2025" numeric)
 			;
 	 
-			--------- vykon Luhacovice -------------
+			--------- Performance t2 -------------
 			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
 			
 			select
@@ -565,6 +580,14 @@ from crosstab(
 			to 'C:\Program Files\PostgreSQL\17\data\TopFashion\export\timesaleLuhacovice.csv'
 			with(format csv, header, delimiter ';');
 
+			
+			 -- kolik kusu podle druhu zbozi ?
+	 -- kolik kusu podle druhu znacky ?
+     -- v jakem casovem rozmezi(podle hodin) jsou uskutecneny nejvetsi prodeje ?
+	 -- v jakem obdobi se prodava nejmene (mesice) ?
+	 -- podle velikosti ? 
+			
+			
 -------------- skladove zasoby (od roku 2021 presne udaje, do roku 2021 nepresne)------------
 	-- kolik ks zbozi bylo na konci roku ve skladch celkove ?
 
