@@ -1,6 +1,6 @@
 -- sales items tables
 -- year 17 - 20 to month 09 old company
-```sql
+```SQL
 create table p_sales_items_17_20_old (
 	id integer,
 	ref_id integer,
