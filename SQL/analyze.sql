@@ -1,11 +1,9 @@
 -- Analyze
 
 -- Questions
-  -- prijem zbozi
-	 -- kolik bylo v jednotlivych letech naprijmano zbozi celkove ?
+  ----------- Reception section----------
+	 -- How much total of goods were received in each year?
 
-	select * from storage17_20 s 
-	where extract(year from datcreate) = 2017;
 	
 	with cte as (
 	select 
@@ -31,7 +29,7 @@
 	order by year
 	;
 	
-	-- verze 2 podle reciept code (presnejsi)
+	-- version 2 according to receipt code (more accurate)
 	select 
 		  sum(amount),
 		  substring(reciept_id,1,2) as year,
@@ -44,7 +42,7 @@
 	;
 	
 	
-	 -- kolik kusu podle druhu zbozi ?
+	 -- How many pieces depending on the type of product?
 	
 	select * from reception;
 	
@@ -66,7 +64,7 @@ group by rollup(product)
 to 'C:\Program Files\PostgreSQL\17\data\TopFashion\export\prijatezbozidruh.csv'
 with(format csv, header, delimiter ';');
 	
-	 -- kolik kusu podle znacky ?
+	 -- How many pieces depending on the brand ?
 	 
 	 select brand,
 	   count(*)filter(where extract(year from date) = 2017) as cn2017,
@@ -82,7 +80,7 @@ from reception
 group by rollup(brand);
 
 
-	 -- kolik podle prodejen ?
+	 -- How many pieces according the store ? 
 
 select * from reception;
 
@@ -98,7 +96,7 @@ select * from reception;
 	;
 
 
-	-- kolik ks bot podle znacky v jednotlivych letech ?
+	-- How many shoes by brand in each year ?
 	
 	with cte as (
 select 
@@ -130,11 +128,11 @@ order by c.year asc
 ;
 
 
-		---------dle mesicu ----------
+		-- How many pieces and at what price were received in the month of the given year ? 
 		
 	select
 		  substring(reciept_id,1,2) as year,
-		  extract(month from date),
+		  extract(month from date) as month,
 		  sum(amount) as pocet,
 		  sum(price_buy) as cena
 	from reception
@@ -145,7 +143,7 @@ order by c.year asc
 	order by substring(reciept_id,1,2)
 	;
 	
-		------ crosstab po letech -------
+		------ crosstab -------
 		select * 
 		from crosstab(
 		$$
@@ -175,7 +173,7 @@ order by c.year asc
 
 	
 	
-  								----------- prodej zbozi -----------------
+  								----------- Sell section -----------------
 
 		-- pocet prodejek 
 explain(	
@@ -212,7 +210,7 @@ SELECT
     (t1.zlín - lag(t1.zlín)over(order by year))as dif_zlin
 FROM t2
 FULL JOIN t1 USING (year)
-ORDER BY year;
+ORDER BY year;git status
 	
 	
 	
@@ -721,7 +719,7 @@ SELECT
 FROM storage21_25clothes
 GROUP BY rollup(product)
 ORDER BY product;
---- porovnani s LAG
+--- porovnani 
 with cte as (
 SELECT
     product,
@@ -754,7 +752,7 @@ select
 	sum(price_buy) as value,
 	storage
 from storage21_25
-where year = '2024' and amount > 0
+where year = '2022' and amount > 0
 group by storage;
 
 
@@ -812,4 +810,4 @@ order by c.year asc
 select count(distinct(ean_code)),
 	   sum(amount_left)
 from reception r 
-where product = 'Boty' and extract(year from date) = 2023;
+where product = 'Boty' and extract(year from date) = 2020;

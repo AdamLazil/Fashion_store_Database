@@ -24,9 +24,10 @@ The goal was to convert fragmented and incompatible data from formats such as **
 ## 🔍 Tools & Technologies
 
 | Area              | Technology                                                      |
-| ----------------- | --------------------------------------------------------------- |
-| :                 | :                                                               |
+| :---------------- | :-------------------------------------------------------------- |
 | ETL/Data Cleaning | Python, Power Query                                             |
 | Database          | PostgreSQL/ SQL                                                 |
 | Visualization     | Power BI                                                        |
 | Sources           | Excel (.xlsx), Word(.docx), Access(.accdb), CSV, e-mail exports |
+
+## ⚙️ Proces overview
