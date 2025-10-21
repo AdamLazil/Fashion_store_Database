@@ -1,6 +1,6 @@
 -- sales items tables
 -- year 17 - 20 to month 09 old company
-'''sql
+```sql
 create table p_sales_items_17_20_old (
 	id integer,
 	ref_id integer,
@@ -16,7 +16,7 @@ create table p_sales_items_17_20_old (
 	datsave timestamp,
 	foreign key (ref_id)references p_sales_17_20_old(id)
 );
-'''
+```
 copy p_sales_items_17_20_old (
 							id,
 							ref_id,
