@@ -522,7 +522,7 @@ $$
 		
 			
 			--------- Performance t1 -------------
-			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
+			-- according time of sale (compare from previous years due to opening hours)
 			
 			select
 				 year,
@@ -550,7 +550,7 @@ from crosstab(
 			;
 	 
 			--------- Performance t2 -------------
-			-- podle casu prodeju (porovnat z predchoyich let kvuli oteviraci dobe)
+			-- according time of sale (compare from previous years due to opening hours)
 			
 			select
 				 year,
@@ -581,15 +581,11 @@ from crosstab(
 			with(format csv, header, delimiter ';');
 
 			
-			 -- kolik kusu podle druhu zbozi ?
-	 -- kolik kusu podle druhu znacky ?
-     -- v jakem casovem rozmezi(podle hodin) jsou uskutecneny nejvetsi prodeje ?
-	 -- v jakem obdobi se prodava nejmene (mesice) ?
-	 -- podle velikosti ? 
 			
 			
--------------- skladove zasoby (od roku 2021 presne udaje, do roku 2021 nepresne)------------
-	-- kolik ks zbozi bylo na konci roku ve skladch celkove ?
+-------------- warehouse stock (exact data from 2021, imprecise until 2021)------------
+			
+	-- How many pieces of goods were in stock at the end of the year ?
 
 	select * from storage21_25clothes sc ;
 	
@@ -626,35 +622,87 @@ where amount > 0
 group by extract(year from s.datcreate);
 
 	
-	-- kolik ks zbozi bylo na konci roku ve skladch po prodejnach ?
-	
-	-- ktereho zbozi zustava nejvice ?
+	-- How many pieces of goods were in the stores' warehouses at the end of the year ?
 
-
-
-
-
-
-
-
-
-
------
-
+SELECT
+    product,
+    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
+    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
+    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
+    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
+    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
+FROM storage21_25clothes
+GROUP BY rollup(product)
+ORDER BY product;
+--- comperisson 
+with cte as (
+SELECT
+    product,
+    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
+    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
+    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
+    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
+    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
+FROM storage21_25clothes
+GROUP BY product
+ORDER BY product
+),
+cte2 as (
 select
-	  extract(month from ps.reciept_date) as month,
-	  ci.establishment,
-	  ifi.form_name,
-	  sum(ps.price_netto) as revenue,
-	  sum(ps.price_dph) as dph,
-	  count(ps.price_netto),
-	  rank()over(partition by ci.establishment order by count(ps.price_netto) asc) as rank
-from p_sales_17_20_old ps
-join creator_ids ci on ci.mark = ps.creator
-join income_form_ids ifi on ifi.id_form = ps.form
-where extract (year from ps.reciept_date) = 2018
-group by ci.establishment,ifi.form_name,extract(month from ps.reciept_date)
-order by month asc;
+	  c.product,
+	  c.y2022 - c.y2021 as dif21,
+	  c.y2023 - c.y2022 as dif22,
+	  c.y2024 - c.y2023 as dif23,
+	  c.y2025 - c.y2024 as dif24   
+from cte c
+)
+select * from cte2
+;
+	
+	-- Whose goods last the most ? 
+with cte as (
+SELECT
+    product,
+    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
+    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
+    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
+    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
+    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
+FROM storage21_25clothes
+GROUP BY rollup(product)
+)
+select 
+	 c.product,
+	 c.y2021,
+	 c.y2022,
+	 c.y2023,
+	 c.y2024,
+	 c.y2025
+from cte c
+order by c.y2021,c.y2022,c.y2023,c.y2024,c.y2025 desc
+limit 3
+;
+
+-- quick overwiev according store 
+
+select 
+	sum(amount) as pocet,
+	sum(price_buy) as value,
+	storage
+from storage21_25
+where year = '2022' and amount > 0
+group by storage;
+
+
+select count(*),
+	   sum(amount) as pocet,
+	   creator
+from storage17_20  
+where amount > 0 
+and datsave > datcreate 
+and extract(year from datsave) = 2020
+group by rollup(creator) ;
+
 
 ----------- terminal section -----------------
 
@@ -671,7 +719,7 @@ from card_transactions
 where extract(year from time_date) = 2025
 and terminal_code = '682076';
 
--- zjisti počet opakujících se karet(zákazníků)
+-- find out the number of recurring cards (customers)
 select 
 	count(card_number) as celkovy_pocet,
 	count(distinct(card_number)) as jedinecne_pocet
@@ -688,8 +736,9 @@ from (select
 		);
 
 -- for each establishment
-select count(*),
-terminal_code
+select 
+	count(*),
+	terminal_code
 from (select
 		  card_number,
 		  terminal_code,
@@ -707,7 +756,7 @@ group by terminal_code
 select * from card_transactions ct ;
 
 
--- poplatky na terminalu po prodejnach
+-- terminal fees after sales
 
 with costs_cte as (
 select terminal_code,
@@ -729,67 +778,9 @@ order by year_cc
 ;
 
 
-------------------- Storage -------------------
-select * from storage21_25clothes sc ;
 
-SELECT
-    product,
-    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
-    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
-    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
-    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
-    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
-FROM storage21_25clothes
-GROUP BY rollup(product)
-ORDER BY product;
---- porovnani 
-with cte as (
-SELECT
-    product,
-    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
-    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
-    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
-    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
-    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
-FROM storage21_25clothes
-GROUP BY product
-ORDER BY product
-),
-cte2 as (
-select
-	  c.product,
-	  c.y2021 - c.y2022 as dif21,
-	  c.y2022 - c.y2023 as dif22,
-	  c.y2023 - c.y2024 as dif23,
-	  c.y2024 - c.y2025 as dif24   
-from cte c
-)
-select * from cte2
-;
+-- avg price on product
 
-
-
---
-select 
-	sum(amount) as pocet,
-	sum(price_buy) as value,
-	storage
-from storage21_25
-where year = '2022' and amount > 0
-group by storage;
-
-
-select count(*),
-	   sum(amount) as pocet,
-	   creator
-from storage17_20  
-where amount > 0 
-and datsave > datcreate 
-and extract(year from datsave) = 2020
-group by rollup(creator) ;
-
-
--- prumerna cena na produkt
 select * from reception;
 
 select 
@@ -799,7 +790,9 @@ from reception sc
 group by product;
 
 
----- prodej bot vs prijem 
+------------ specific products ---------------
+-- shoes
+  -- compare income vs outcome
 with cte as (
 select 
 	   extract(year from datcreate) as year,
@@ -829,8 +822,99 @@ left join cte2 cc on c.year = cc.year
 order by c.year asc
 ;
 
+-- Find out how many shoes are left in the store at the end of the year
 
-select count(distinct(ean_code)),
-	   sum(amount_left)
-from reception r 
-where product = 'Boty' and extract(year from date) = 2020;
+create temporary table shoestoragecheck as 
+with cte as (
+select 
+	   extract(year from datcreate) as year,
+	   product,
+	   count(*) as pocet_ks,
+	   sum(price_netto) as revenue,
+	   sum(dph) as dph  
+from sales_final
+where year in (2017,2018,2019,2020,2021,2022,2023,2024,2025) and product = 'Boty'
+group by product,extract(year from datcreate)  
+order by extract(year from datcreate) asc
+),
+cte2 as (
+select
+	  extract(year from r.date) as year,
+	  sum(r.amount) as prijate_ks,
+	  sum(r.price_buy) as costs
+from reception r
+where product = 'Boty' and amount > 0
+group by extract(year from date)
+)
+select
+	  c.year,
+	  c.pocet_ks as prodane,
+	  cc.prijate_ks as prijate
+from cte c
+left join cte2 cc on c.year = cc.year
+order by c.year asc
+;
+
+select 
+    ssc.year,
+    (ssc.prodane - ssc.prijate) as zustatek,
+    (
+        select sum(sc.amount)
+        from storage21_25clothes sc
+        where sc.amount > 0 
+          and sc.product = 'Boty'
+          and sc.year::numeric = ssc.year
+    ) as sklad_za_rok
+from shoestoragecheck ssc
+order by ssc.year;
+
+
+-- NU
+
+select * from reception r ;
+with cte as (
+select  
+	 product,
+	 sum(price_buy) as costs,
+	 count(product) as prijate
+from reception 
+where brand = 'NÜ'
+group by product 
+),
+cte2 as (
+select
+	  product,
+	  sum(price_netto) as revenue,
+	  count(product) as prodane
+from sales_final
+where brand = 'NÜ'
+group by product
+)
+select
+	 sf.product,
+	 r.prijate,
+	 r.costs,
+	 sf.prodane,
+	 sf.revenue
+from cte2 sf
+full join cte r on r.product = sf.product;
+
+
+--
+
+select
+	  extract(month from ps.reciept_date) as month,
+	  ci.establishment,
+	  ifi.form_name,
+	  sum(ps.price_netto) as revenue,
+	  sum(ps.price_dph) as dph,
+	  count(ps.price_netto),
+	  rank()over(partition by ci.establishment order by count(ps.price_netto) asc) as rank
+from p_sales_17_20_old ps
+join creator_ids ci on ci.mark = ps.creator
+join income_form_ids ifi on ifi.id_form = ps.form
+where extract (year from ps.reciept_date) = 2018
+group by ci.establishment,ifi.form_name,extract(month from ps.reciept_date)
+order by month asc;
+
+

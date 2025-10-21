@@ -31,3 +31,22 @@ The goal was to convert fragmented and incompatible data from formats such as **
 | Sources           | Excel (.xlsx), Word(.docx), Access(.accdb), CSV, e-mail exports |
 
 ## ⚙️ Proces overview
+
+1 - **Data collection**
+-> creation of a data warehouse for the necessary data
+2 - **Data check** (first filtering)
+-> data integrity check and sorting into usable and expendable
+3 - **Data transform**
+-> unification of data into the same format with Power Query and Python
+4 - **Cleaning the data**(second filtering)
+-> removal of duplicates and invalid data
+5 - **Data addition and transform**
+-> creating new columns and auxiliary tables
+6 - **Database**
+-> creating a database structure
+7 - **Data transfer**
+-> import data to database
+8 - **Analyze**
+-> creating a query based on selected questions
+9 - **Dashboard and report**
+-> Power Bi dashboard and
