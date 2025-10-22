@@ -50,3 +50,7 @@ The goal was to convert fragmented and incompatible data from formats such as **
 -> creating a query based on selected questions<br>
 9 - **Dashboard and report**<br>
 -> Power Bi dashboard and
+
+## Preview database
+
+![Database](screenshots/database.png)
