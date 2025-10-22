@@ -1,3 +1,7 @@
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![pandas](https://img.shields.io/badge/pandas-2.2.0-green)
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
+
 # 🧠 Brand & Product Matcher (Python, Fuzzy)
 
 This script automatically **identifies the brand and type of a product** from a text string (name) in the product database. It uses **fuzzy matching** to find a match even when the name contains typos or is inaccurate.
@@ -43,17 +47,53 @@ script is suitable for:
 
 6. **Save the file to excel**
 
-## ⚙️ Použité knihovny
+## ⚙️ Used Libraries
 
 ```bash
 pip install pandas thefuzz tqdm openpyxl
 ```
 
-## 🧠 Ukázka
+## 🧠 Preview
 
-**Vstup** (finalTestPython.xlsx)
+**Input** (finalTestPython.xlsx)
 
 |  ids   | ..... |                     product_name                      | ...... | name_norm | control_type | ...... | Brand | product_norm | clothes_code |
 | :----: | :---: | :---------------------------------------------------: | :----: | :-------: | :----------: | :----: | :---: | :----------: | :----------: |
 |        | ..... |              tričko/105330/1026/40/so/\*              | ...... |           |              | ...... |       |              |              |
 | 100073 | ..... | Carla Tencel trench / vel. 38 / STREETONE/BUNDA 10109 | ...... |           |              | ...... |       |    Bunda     |      10      |
+
+**Reference table** (brandHelpPython.xlsx)
+
+| ZNACKA  | PRODUKT | KOD   |
+| :------ | :------ | :---- |
+| la      | kalhoty | 37    |
+| osshoes | top     | 32    |
+| .....   | ....    | ....  |
+| brenda  | boty    | 987   |
+| fbsd    | ....    | ..... |
+| cal     | tričko  | 11    |
+| so      | bunda   | 10    |
+
+**Output**
+
+|  ids   | ..... |                     product_name                      | ...... |                     name_norm                     | control_type | ...... |   Brand    | product_norm | clothes_code |
+| :----: | :---: | :---------------------------------------------------: | :----: | :-----------------------------------------------: | :----------: | :----: | :--------: | :----------: | :----------: |
+|        | ..... |              tričko/105330/1026/40/so/\*              | ...... |            tričko 105330 1026 40 so \*            |    tričko    | ...... |     so     |    tricko    |      11      |
+| 100073 | ..... | Carla Tencel trench / vel. 38 / STREETONE/BUNDA 10109 | ...... | Carla Tencel trench vel. 38 STREETONE BUNDA 10109 |    bunda     | ...... | Street One |    Bunda     |      10      |
+
+## 🚀 Launch
+
+```bash
+python brandMergerCodeVer2.py
+```
+
+After successful completion:
+
+```arduino
+Hotovo ✅ Výsledky jsou uložené do finalTestPython.xlsx
+```
+
+## 🧑‍💻 Autor
+
+**Bc. Adam Lízal**
+📍 Data analysis & automation in Python
