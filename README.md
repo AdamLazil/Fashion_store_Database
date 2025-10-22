@@ -51,6 +51,26 @@ The goal was to convert fragmented and incompatible data from formats such as **
 9 - **Dashboard and report**<br>
 -> Power Bi dashboard and
 
+## 📁 Project Structure
+
+## 🧾 Output
+
+The result of the project is a clean and structured SQL database that allows for:
+
+- fast trend analysis over time,
+
+- more efficient inventory management,
+
+- better reports for management,
+
+- easier data updates.
+
+## 🏁 Status
+
+✅ Data integration completed
+✅ Data cleaning and enrichment done
+🚧 Power BI dashboard (in progress)
+
 ## Preview database
 
-![Database](screenshots/database.png)
+![Database - preview](screenShots/database.png)
