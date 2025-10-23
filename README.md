@@ -33,25 +33,45 @@ The goal was to convert fragmented and incompatible data from formats such as **
 ## ⚙️ Proces overview
 
 1 **Data collection**<br>
--> creation of a data warehouse for the necessary data<br>
+&nbsp;&nbsp; -> creation of a data warehouse for the necessary data<br>
 2 - **Data check** (first filtering)<br>
--> data integrity check and sorting into usable and expendable<br>
+&nbsp;&nbsp;-> data integrity check and sorting into usable and expendable<br>
 3 - **Data transform**<br>
--> unification of data into the same format with Power Query and Python<br>
+&nbsp;&nbsp;-> unification of data into the same format with Power Query and Python<br>
 4 - **Cleaning the data**(second filtering)<br>
--> removal of duplicates and invalid data<br>
+&nbsp;&nbsp;-> removal of duplicates and invalid data<br>
 5 - **Data addition and transform**<br>
--> creating new columns and auxiliary tables<br>
+&nbsp;&nbsp;-> creating new columns and auxiliary tables<br>
 6 - **Database**<br>
--> creating a database structure<br>
+&nbsp;&nbsp;-> creating a database structure<br>
 7 - **Data transfer**<br>
--> import data to database<br>
+&nbsp;&nbsp;-> import data to database<br>
 8 - **Analyze**<br>
--> creating a query based on selected questions<br>
+&nbsp;&nbsp;-> creating a query based on selected questions<br>
 9 - **Dashboard and report**<br>
--> Power Bi dashboard and
+&nbsp;&nbsp;-> Power Bi dashboard and
 
 ## 📁 Project Structure
+
+```pgsql
+
+E:.
+├───data
+│   ├───filtered
+│   ├───processed
+│   │   └───mergedCleanToSql
+│   └───raw
+├───outputs
+│   ├───dashboard
+│   └───report
+├───scripts
+│   ├───help
+│   └───main
+└───sql
+    ├───analyze
+    └───tables
+
+```
 
 ## 🧾 Output
 
@@ -67,8 +87,8 @@ The result of the project is a clean and structured SQL database that allows for
 
 ## 🏁 Status
 
-✅ Data integration completed<b>
-✅ Data cleaning and enrichment done<b>
+✅ Data integration completed <br>
+✅ Data cleaning and enrichment done <br>
 🚧 Power BI dashboard (in progress)
 
 ## Preview database
