@@ -1,4 +1,4 @@
-# 🧾 Project Overview
+# 🧾 Report Overview
 
 This report represents a **partial demonstration** of a larger analytical project.
 The complete dataset and results cannot be publicly shared due to the **sensitive nature of business data**, including sales figures and internal financial information.
@@ -6,7 +6,9 @@ The complete dataset and results cannot be publicly shared due to the **sensitiv
 The purpose of this report is therefore **to illustrate the workflow, data structure, and analytical approach** used in the project — not to display real commercial values.
 All figures and tables presented here are **for demonstration purposes only** and are intended to showcase the process of data unification, cleaning, and analysis.
 
-## 🧭 Report Structure
+<center>
+
+# 🧭 Report Structure
 
 The analysis is divided into four main sections, each addressing a specific part of the business process:
 
@@ -32,6 +34,10 @@ The goal is to balance purchasing decisions with actual sales demand.
 
 Based on the analysis above, this section provides data-driven recommendations for improving operational efficiency and profitability.
 It focuses on inventory optimization, pricing strategy, and product mix improvements.
+
+</center>
+
+<br>
 
 # 🔍 Key Findings
 
