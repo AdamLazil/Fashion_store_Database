@@ -869,6 +869,30 @@ from shoestoragecheck ssc
 order by ssc.year;
 
 
+with cte1 as (
+select 
+	  sf.year,
+	  sum(sf.price_netto) as prodej
+from sales_final sf
+where sf.brand = 'Olivia Shoes'
+group by year
+),
+cte2 as (
+select
+	extract(year from date) as year,
+	sum(price_buy) as prijem
+from reception
+where brand = 'Olivia Shoes'
+group by extract(year from date)
+)
+select
+	 c1.year,
+	 c1.prodej,
+	 c2.prijem
+from cte1 c1
+join cte2 c2 using(year)
+;
+
 -- NU
 
 select * from reception r ;
