@@ -204,13 +204,13 @@ t2 AS (
 )
 SELECT
     COALESCE(t2.year, t1.year) AS year,
-    t2.luhacovice,
-    (t2.luhacovice - lag(t2.luhacovice)over(order by year))as dif_luha,
-    t1.zlín,
-    (t1.zlín - lag(t1.zlín)over(order by year))as dif_zl
+    t2.luh,
+    (t2.luh - lag(t2.luh)over(order by year))as dif_luha,
+    t1.zl,
+    (t1.zl - lag(t1.zl)over(order by year))as dif_zl
 FROM t2
 FULL JOIN t1 USING (year)
-ORDER BY year;git status
+ORDER BY year;
 	
 	
 	
@@ -704,6 +704,84 @@ and extract(year from datsave) = 2020
 group by rollup(creator) ;
 
 
+-- correlation between reveneus and stocks
+
+
+with yearly_data as (
+select 	
+		 sc.year::int,
+		 sum(sc.amount) as pocet
+from storage21_25clothes sc 
+group by sc.year
+),
+revenue_data as (
+select
+	 	sf.year::int,
+	 	count(*)filter(where sf.name not ilike 'sleva%'),
+	 	sum(sf.price_brutto) as revenue
+from sales_final sf
+where sf.year between 2021 and 2025
+group by sf.year
+),
+merged as (
+	select
+		y.year,
+		y.pocet,
+		r.revenue,
+		lag(y.pocet)over(order by y.year)as prev_pocet,
+		lag(r.revenue)over(order by y.year)as prev_revenue
+from yearly_data y
+join revenue_data r using(year)
+),
+growth as (
+	select
+		m.year,
+		((m.pocet - m.prev_pocet)::numeric / m.prev_pocet)*100 as growth_pocet,
+		((m.revenue - m.prev_revenue)::numeric / m.prev_revenue)*100 as growth_revenue
+	from merged m
+	where m.prev_pocet is not null and m.prev_revenue is not null
+)
+select
+	corr(g.growth_pocet,g.growth_revenue) as corelation_growth
+from growth g
+;
+
+
+-- filter
+ select
+	 	year,
+	 	count(*)filter(where name not ilike 'sleva%'),
+	 	sum(price_brutto)
+	 from sales_final
+	 where year between 2021 and 2025
+	 group by year
+	 order by year asc;
+ 
+ -- lateral analyze
+ explain analyze
+ SELECT
+    s.year,
+    sf.count_no_discount,
+    s.total_price
+FROM (
+    SELECT
+        year,
+        SUM(price_brutto) AS total_price
+    FROM sales_final
+    WHERE year BETWEEN 2021 AND 2025
+    GROUP BY year
+) AS s
+LEFT JOIN LATERAL (
+    SELECT COUNT(*) AS count_no_discount
+    FROM sales_final sf2
+    WHERE sf2.year = s.year
+      AND sf2.name NOT ILIKE 'sleva%'
+) AS sf ON TRUE
+ORDER BY s.year;
+ 
+select * from sales_final sf
+where name ilike  'sleva%';
+
 ----------- terminal section -----------------
 
 select  
@@ -893,6 +971,8 @@ from cte1 c1
 join cte2 c2 using(year)
 ;
 
+select * from sales_final;
+select * from reception ;
 -- NU
 
 select * from reception r ;
