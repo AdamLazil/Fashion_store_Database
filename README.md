@@ -51,6 +51,14 @@ The goal was to convert fragmented and incompatible data from formats such as **
 9 - **Dashboard and report**<br>
 &nbsp;&nbsp;-> Power Bi dashboard and
 
+```mermaid
+  graph TD;
+    A-->B[.xlsx];
+    A-->B[.csv];
+    B[Data]-->C;
+
+```
+
 ## 📁 Project Structure
 
 ```pgsql
