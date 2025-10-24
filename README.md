@@ -58,7 +58,12 @@ The goal was to convert fragmented and incompatible data from formats such as **
     C[.access]-->E;
     D[other]-->E
     E[Data]-->|sorting| F[invalid];
-    E[Data]-->|sorting| G[valid];
+    E[Data]-->|sorting| G[valid(all formats)];
+    G[valid(all formats)]-->|unifying| H[unified format];
+    H[unified format]-->|cleaning| I[cleaned];
+    I[cleaned]-->|transform| J[transformed];
+
+
 
 ```
 
