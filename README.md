@@ -52,10 +52,13 @@ The goal was to convert fragmented and incompatible data from formats such as **
 &nbsp;&nbsp;-> Power Bi dashboard and
 
 ```mermaid
-  graph TD;
-    A-->B[.xlsx];
-    A-->B[.csv];
-    B[Data]-->C;
+  flowchart LR;
+    A[.xlsx]-->E;
+    B[.csv]-->E;
+    C[.access]-->E;
+    D[other]-->E
+    E[Data]-->|sorting| F[invalid];
+    E[Data]-->|sorting| G[valid];
 
 ```
 
