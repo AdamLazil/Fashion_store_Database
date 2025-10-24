@@ -67,3 +67,8 @@ Based on these findings, it can be estimated that **inventory levels increased b
 **Improved data accuracy after 2020**:
 Following a complete inventory review in 2020 and the implementation of a more efficient inventory management system, the data quality has significantly improved.
 However, **it was still necessary to standardize and clean the records** to ensure that the analytical results accurately reflected the real-world stock situation and provided reliable insights for further decision-making.
+
+**Stabilization after management and system changes**:
+After the change in management and the introduction of a more efficient inventory control system, the analysis shows a **significant improvement and stabilization** in stock circulation.
+Year-to-year fluctuations in inventory growth have become minimal, averaging **between 1 – 2 %**.
+A slight deviation was observed in 2022, when stores were temporarily closed due to COVID-19 restrictions. During this period, stock levels increased by around **8 %**, as incoming orders had been placed several months in advance and could not be postponed.
