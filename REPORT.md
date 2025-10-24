@@ -12,25 +12,25 @@ All figures and tables presented here are **for demonstration purposes only** an
 
 The analysis is divided into four main sections, each addressing a specific part of the business process:
 
-## 🏬 1. Inventory (Stock Management)
+## 🏬 Inventory (Stock Management)
 
 This section focuses on stock levels and product turnover.
 It identifies slow-moving items, highlights overstocked categories, and evaluates opportunities to optimize inventory costs.
 Visualizations include stock distribution over time and year-to-year comparisons.
 
-## 💰 2. Sales Performance
+## 💰 Sales Performance
 
 Analysis of sales trends, revenue structure, and product category performance.
 It evaluates how sales evolved across different years, stores, and time periods.
 The results help to identify peak sales hours, seasonal effects, and differences between stores.
 
-## 📦 3. Goods Receipts (Purchasing)
+## 📦 Goods Receipts (Purchasing)
 
 This section tracks incoming goods and supplier activity.
 It compares purchase volumes with sales results to detect inefficiencies or over-purchasing.
 The goal is to balance purchasing decisions with actual sales demand.
 
-## 📊 4. Insights & Recommendations
+## 📊 Insights & Recommendations
 
 Based on the analysis above, this section provides data-driven recommendations for improving operational efficiency and profitability.
 It focuses on inventory optimization, pricing strategy, and product mix improvements.
@@ -56,3 +56,14 @@ During the data analysis, several important issues were identified that affected
 - **Lack of reporting and analyzing**:
   There was no systematic reporting of stock levels, and no reorder or purchase limits were defined for individual products.
   This likely led to overstocking and inefficient capital allocation, as large quantities of unsold goods tied up financial resources and reduced overall profitability.
+
+### 1. Stock management
+
+**Unclear and inaccurate inventory records between 2017 and 2020**:
+Data related to stock management during the years 2017–2020 were found to be **highly inconsistent** and incomplete due to poor inventory tracking and missing documentation.
+After applying filters and identifying certain recurring patterns — such as **unique EAN codes combined with the date of stock entry** — it was possible to partially reconstruct the approximate stock movements.
+Based on these findings, it can be estimated that **inventory levels increased by around 10% per year**, corresponding to approximately **600 additional items annually**.
+
+**Improved data accuracy after 2020**:
+Following a complete inventory review in 2020 and the implementation of a more efficient inventory management system, the data quality has significantly improved.
+However, **it was still necessary to standardize and clean the records** to ensure that the analytical results accurately reflected the real-world stock situation and provided reliable insights for further decision-making.
