@@ -57,6 +57,11 @@ During the data analysis, several important issues were identified that affected
   There was no systematic reporting of stock levels, and no reorder or purchase limits were defined for individual products.
   This likely led to overstocking and inefficient capital allocation, as large quantities of unsold goods tied up financial resources and reduced overall profitability.
 
+  **Inefficient capital management**:
+  The former owner handled company finances irresponsibly and diverted working capital into other personal projects, many of which were **highly unprofitable.**
+  This practice significantly disrupted store operations, leading to **delayed invoice payments, penalty charges**, and the **loss of early payment discounts**.
+  Furthermore, no **financial reserves** were established for unforeseen circumstances, which increased the company’s financial vulnerability.
+
 ### 1. Stock management
 
 **Unclear and inaccurate inventory records between 2017 and 2020**:
