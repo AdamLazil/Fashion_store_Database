@@ -57,7 +57,7 @@ During the data analysis, several important issues were identified that affected
   There was no systematic reporting of stock levels, and no reorder or purchase limits were defined for individual products.
   This likely led to overstocking and inefficient capital allocation, as large quantities of unsold goods tied up financial resources and reduced overall profitability.
 
-  **Inefficient capital management**:
+- **Inefficient capital management**:
   The former owner handled company finances irresponsibly and diverted working capital into other personal projects, many of which were **highly unprofitable.**
   This practice significantly disrupted store operations, leading to **delayed invoice payments, penalty charges**, and the **loss of early payment discounts**.
   Furthermore, no **financial reserves** were established for unforeseen circumstances, which increased the company’s financial vulnerability.
@@ -77,3 +77,16 @@ However, **it was still necessary to standardize and clean the records** to ensu
 After the change in management and the introduction of a more efficient inventory control system, the analysis shows a **significant improvement and stabilization** in stock circulation.
 Year-to-year fluctuations in inventory growth have become minimal, averaging **between 1 – 2 %**.
 A slight deviation was observed in 2022, when stores were temporarily closed due to COVID-19 restrictions. During this period, stock levels increased by around **8 %**, as incoming orders had been placed several months in advance and could not be postponed.
+
+**Inventory composition and optimization**:
+The inventory consists of **35 product types** of women’s clothing and accessories.
+The three largest categories by volume are:
+
+_Jeans_ — representing **15% to 20%** of total inventory,
+
+_T-shirts and blouses_ — around **20% to 25%**,
+
+_Shoes_ — approximately **8% to 10%**.
+
+A positive outcome of the analysis is the **gradual reduction and stabilization of inventory levels** compared to previous years.
+This improvement clearly demonstrates the **effectiveness of newly introduced order limits and more efficient inventory management practices**.
