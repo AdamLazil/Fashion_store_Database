@@ -90,3 +90,11 @@ _Shoes_ — approximately **8% to 10%**.
 
 A positive outcome of the analysis is the **gradual reduction and stabilization of inventory levels** compared to previous years.
 This improvement clearly demonstrates the **effectiveness of newly introduced order limits and more efficient inventory management practices**.
+
+### 2. Sales Performance
+
+| Store | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023  | 2024 | 2025 |
+| :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :---: | :--: | :--: |
+|  T1   |  0   | 40%  | -13% |  5%  |  6%  | -40% | -2%  | -6%  | -100% | 30%  |      |
+|  T2   |  -   |  -   |  0   | 52%  |  8%  | -42% | 15%  | 28%  |  7%   | -4%  |      |
+|  T3   |  -   |  -   |  -   |  -   |  -   |  -   |  -   |  0   |  39%  | -93% |  -   |
