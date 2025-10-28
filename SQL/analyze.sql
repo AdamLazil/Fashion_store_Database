@@ -226,7 +226,32 @@ ORDER BY year;
 	 group by year
 	 order by year asc;
 	 
-	
+	 with cte as (
+	 select
+	 	year,
+	 	count(*) as pocet,
+	 	sum(price_brutto) as revenue
+	 from sales_final
+	 where store = 't3'
+	 group by year
+	 order by year asc
+	 ),
+	 cte2 as (
+	 select 
+	 	  c.year,
+	 	  c.pocet,
+	 	  c.revenue,
+	 	  c.revenue - (lag(c.revenue)over(order by c.year)) as dif
+	 from cte c
+	)
+	select
+		 year,
+		 pocet,
+		 revenue,
+		 dif,
+		 round(((dif*100)/revenue),2) as perc
+	from cte2;
+		 
 	 
 	 -- Best-selling item ?
 	 select * from sales_final
@@ -658,6 +683,34 @@ from cte c
 )
 select * from cte2
 ;
+-- percentege
+with cte as (
+SELECT
+    product,
+    SUM(CASE WHEN year = '2021' THEN amount ELSE 0 END) AS y2021,
+    SUM(CASE WHEN year = '2022' THEN amount ELSE 0 END) AS y2022,
+    SUM(CASE WHEN year = '2023' THEN amount ELSE 0 END) AS y2023,
+    SUM(CASE WHEN year = '2024' THEN amount ELSE 0 END) AS y2024,
+    SUM(CASE WHEN year = '2025' THEN amount ELSE 0 END) AS y2025
+FROM storage21_25clothes
+GROUP BY product
+ORDER BY product
+),
+cte2 as (
+select
+	  c.product,
+	  ROUND((c.y2021 * 100.0) / SUM(c.y2021) OVER (), 2) AS per21,
+  	  ROUND((c.y2022 * 100.0) / SUM(c.y2022) OVER (), 2) AS per22,
+  	  ROUND((c.y2023 * 100.0) / SUM(c.y2023) OVER (), 2) AS per23,
+  	  ROUND((c.y2024 * 100.0) / SUM(c.y2024) OVER (), 2) AS per24,
+  	  ROUND((c.y2025 * 100.0) / SUM(c.y2025) OVER (), 2) AS per25
+from cte c    
+)
+select * from cte2
+;
+
+
+
 	
 	-- Whose goods last the most ? 
 with cte as (
@@ -671,7 +724,8 @@ SELECT
 FROM storage21_25clothes
 GROUP BY rollup(product)
 )
-select 
+select
+	 row_number()over(order by c.product asc) as n,
 	 c.product,
 	 c.y2021,
 	 c.y2022,
@@ -680,8 +734,23 @@ select
 	 c.y2025
 from cte c
 order by c.y2021,c.y2022,c.y2023,c.y2024,c.y2025 desc
-limit 3
 ;
+
+select
+	extract(year from date) as year,
+	sum(amount),
+	product
+from reception
+where product ilike 'Triko%' 
+group by extract(year from date),product
+having extract(year from date) = 2021;
+
+
+
+select count(*)
+from sales_final sf 
+where product ilike 'Triko%'
+and year = 2021;
 
 -- quick overwiev according store 
 
@@ -705,7 +774,9 @@ group by rollup(creator) ;
 
 
 -- correlation between reveneus and stocks
-
+select * from storage21_25clothes sc ;
+select * from reception r ;
+select * from sales_final sf ;
 
 with yearly_data as (
 select 	
@@ -971,8 +1042,10 @@ from cte1 c1
 join cte2 c2 using(year)
 ;
 
-select * from sales_final;
-select * from reception ;
+select *
+from sales_final
+where product = 'Boty';
+
 -- NU
 
 select * from reception r ;
