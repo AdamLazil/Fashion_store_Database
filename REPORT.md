@@ -93,8 +93,17 @@ This improvement clearly demonstrates the **effectiveness of newly introduced or
 
 ### 2. Sales Performance
 
-| Store | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023  | 2024 | 2025 |
+**YOY growth %**
+| Store | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :---: | :--: | :--: |
-|  T1   |  0   | 40%  | -13% |  5%  |  6%  | -40% | -2%  | -6%  | -100% | 30%  |      |
-|  T2   |  -   |  -   |  0   | 52%  |  8%  | -42% | 15%  | 28%  |  7%   | -4%  |      |
-|  T3   |  -   |  -   |  -   |  -   |  -   |  -   |  -   |  0   |  39%  | -93% |  -   |
+| T1 | 0 | 40% | -13% | 5% | 6% | -40% | -2% | -6% | -100% | 30% | |
+| T2 | - | - | 0 | 52% | 8% | -42% | 15% | 28% | 7% | -4% | |
+| T3 | - | - | - | - | - | - | - | 0 | 39% | -93% | - |
+
+_Store T1 Performance Analysis_
+
+Store T1 was established in 2015 and demonstrated strong market acceptance by nearly doubling its turnover in the following year. Although a slight decline was recorded in 2017, this did not jeopardize the store’s operations, as the results from the previous year had already established the break-even point.
+
+In the subsequent two years, the store achieved moderate growth, maintaining turnover levels around the break-even threshold. However, the years 2020 and 2021 brought a sharp decline due to COVID-19 restrictions, which significantly disrupted operations. The possibility of closing the store was considered, given the rising operating costs and the absence of revenue. This was ultimately avoided by financing expenses through a short-term loan.
+
+The drastic decrease in sales in 2023 resulted from transforming the store into an outlet and relocating it to new premises. This decision aimed to reduce excess inventory and take advantage of a larger retail space. However, the move did not prove effective, as the outlet’s performance fell short of expectations, and operating costs in the new location increased.
