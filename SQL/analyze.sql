@@ -606,8 +606,53 @@ from crosstab(
 			with(format csv, header, delimiter ';');
 
 			
-			
-			
+	
+-- comparision between t1 +t2 and t3 percentage 
+select * from sales_final;
+
+with cte as (
+	 select
+	 	   year,
+	 	   sum(price_brutto) as revenue_t1_t3
+	 from sales_final
+	 where store in ('t3', 't1')
+	 group by year
+),
+cte2 as (
+		select
+			 sf.year,
+			 c.revenue_t1_t3,
+			 sum(sf.price_brutto) as revenue_t2
+		from sales_final sf
+		join cte c using(year)
+		where store = 't2'
+		group by sf.year,c.revenue_t1_t3
+),
+cte3 as (
+		select 
+			c2.year,
+			c2.revenue_t1_t3,
+			c2.revenue_t2,
+			round((((c2.revenue_t2 - c2.revenue_t1_t3)/c2.revenue_t2)*100),2) as perce
+		from cte2 c2
+)
+select
+	year,
+	revenue_t1_t3,
+	revenue_t2,
+	perce
+from cte3
+order by year asc;
+	 
+
+
+
+	 select
+	 	   year,
+	 	   sum(price_brutto) as revenue
+	 from sales_final
+	 where store in ('t3', 't1')
+	 group by year;		
 -------------- warehouse stock (exact data from 2021, imprecise until 2021)------------
 			
 	-- How many pieces of goods were in stock at the end of the year ?
