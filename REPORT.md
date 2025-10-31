@@ -96,8 +96,8 @@ This improvement clearly demonstrates the **effectiveness of newly introduced or
 **YOY growth %**
 | Store | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :---: | :--: | :--: |
-| T1 | 0 | 40% | -13% | 5% | 6% | -40% | -2% | -6% | -100% | 30% | |
-| T2 | - | - | 0 | 52% | 8% | -42% | 15% | 28% | 7% | -4% | |
+| T1 | 0 | 40% | -13% | 5% | 6% | **-40%** | -2% | -6% | **-100%** | 30% | |
+| T2 | - | - | 0 | 52% | 8% | **-42%** | 15% | 28% | 7% | -4% | |
 | T3 | - | - | - | - | - | - | - | 0 | 39% | -93% | - |
 
 _Store T1 Performance Analysis_
@@ -118,8 +118,10 @@ Just like Store T1, Store T2 was affected by the COVID-19 restrictions, which fo
 
 The main goal for the store in the coming years is to maintain the current level of turnover while optimizing costs related to inventory management.
 
-**comparison volume of revenues t2 vs t1(t3) **
+**comparison volume of revenues t2 vs t1(t3)**
 
 | Store | 2015 | 2016 | 2017  | 2018  | 2019  | 2020  | 2021 | 2022 | 2023  | 2024 | 2025 |
 | :---: | :--: | :--: | :---: | :---: | :---: | :---: | :--: | :--: | :---: | :--: | :--: |
 |  T2   |  -   |  -   | 17,3% | 31.6% | 33.5% | 31.3% | 43%  | 36%  | 43.3% | 53%  |      |
+
+**Goods reciepts**
