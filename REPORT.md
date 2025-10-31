@@ -107,3 +107,19 @@ Store T1 was established in 2015 and demonstrated strong market acceptance by ne
 In the subsequent two years, the store achieved moderate growth, maintaining turnover levels around the break-even threshold. However, the years 2020 and 2021 brought a sharp decline due to COVID-19 restrictions, which significantly disrupted operations. The possibility of closing the store was considered, given the rising operating costs and the absence of revenue. This was ultimately avoided by financing expenses through a short-term loan.
 
 The drastic decrease in sales in 2023 resulted from transforming the store into an outlet and relocating it to new premises. This decision aimed to reduce excess inventory and take advantage of a larger retail space. However, the move did not prove effective, as the outlet’s performance fell short of expectations, and operating costs in the new location increased.
+
+In the fourth quarter of 2024, a decision was made to close the outlet and move the store back to its original location. The primary objective for this store is to regain the sales performance levels observed between 2017 and 2019 within the next two years.
+
+_Store T2 Performance Analysis_
+
+Following the successful establishment of Store T1 and the stabilization of its operational results at a relatively strong level, the decision was made to open a new store in a different location, based on a promising opportunity. The new store demonstrated immediate success, achieving a 50% increase in turnover in its first full year of operation and maintaining — even slightly improving — this performance in the following year.
+
+Just like Store T1, Store T2 was affected by the COVID-19 restrictions, which forced a temporary closure and led to a sharp decline in sales, an increase in operating costs, and a buildup of inventory. However, the impact was not as severe as in the case of Store T1. Thanks to its higher sales volume and better location, the store managed to recover more quickly. In the following years, it showed a steady upward trend, gradually returning to pre-COVID levels. For the current year, a strong increase in turnover is expected, with projections indicating a full recovery to pre-pandemic figures.
+
+The main goal for the store in the coming years is to maintain the current level of turnover while optimizing costs related to inventory management.
+
+**comparison volume of revenues t2 vs t1(t3) **
+
+| Store | 2015 | 2016 | 2017  | 2018  | 2019  | 2020  | 2021 | 2022 | 2023  | 2024 | 2025 |
+| :---: | :--: | :--: | :---: | :---: | :---: | :---: | :--: | :--: | :---: | :--: | :--: |
+|  T2   |  -   |  -   | 17,3% | 31.6% | 33.5% | 31.3% | 43%  | 36%  | 43.3% | 53%  |      |
