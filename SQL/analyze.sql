@@ -4,7 +4,17 @@
   ----------- Reception section----------
 	 -- How much total of goods were received in each year?
 
-	
+select * from reception;	
+
+select
+	extract(month from date),
+	sum(price_clean)
+from reception
+where extract(year from date) = 2025 and
+establishment = 'Luhacovice'
+group by rollup(extract(month from date));
+
+
 	with cte as (
 	select 
 		  sum(amount),
@@ -82,7 +92,7 @@ group by rollup(brand);
 
 	 -- How many pieces according the store ? 
 
-select * from reception;
+
 
 	select
 		extract(year from date) as  year,
@@ -170,8 +180,46 @@ order by c.year asc
 	)	
 		;
 
+-- comperison amount of reception item vs sold item		
 
-	
+
+create table temp_revvssol as
+select
+	extract(year from r.date) as year,
+	sum(r.amount) as reciept,
+	coalesce(sf.kusy,0) as sold
+from reception r
+left join (
+		select 
+			year,
+			count(*) as kusy
+		from sales_final
+		where name not ilike 'sleva%' and year != 2019
+		group by year
+		order by year asc
+	) sf on sf.year = extract(year from r.date)
+where amount <= 6
+group by extract(year from date),sf.kusy 
+order by extract(year from date);
+
+
+insert into temp_revvssol(year, reciept,sold)
+values(2019, 12895, 14849);
+
+select * from temp_revvssol;
+
+select
+	 year,
+	 round(((sold - reciept)::numeric/reciept)*100)
+from temp_revvssol
+order by year asc;
+
+select
+	  sum(sold)/sum(reciept)
+from temp_revvssol
+where year != 2017;
+
+
 	
   								----------- Sell section -----------------
 
@@ -647,12 +695,7 @@ order by year asc;
 
 
 
-	 select
-	 	   year,
-	 	   sum(price_brutto) as revenue
-	 from sales_final
-	 where store in ('t3', 't1')
-	 group by year;		
+		
 -------------- warehouse stock (exact data from 2021, imprecise until 2021)------------
 			
 	-- How many pieces of goods were in stock at the end of the year ?
