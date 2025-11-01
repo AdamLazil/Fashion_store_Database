@@ -125,3 +125,21 @@ The main goal for the store in the coming years is to maintain the current level
 |  T2   |  -   |  -   | 17,3% | 31.6% | 33.5% | 31.3% | 43%  | 36%  | 43.3% | 53%  |      |
 
 **Goods reciepts**
+
+**comparison in vs out**
+
+| Store | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| T1/T2 | -52% | 15%  | 15%  | -8%  |  4%  | 12%  | 32%  | -6%  |      |
+
+The results of the comparison between items received into stock and items sold show a generally healthy ratio over the years. In the last three years, the ratio has stabilized at approximately **1 : 1.23**, meaning that for every item received, 1.23 items are sold. This indicates that older inventory from previous years is being successfully sold off.
+
+The extreme value observed at the beginning of the analyzed period was caused by the **opening of a new store**, where initial sales volumes were still low. However, within the following two years, the situation stabilized, and sales began to **consistently exceed stock inflows**.
+
+Due to the **strong performance in 2023**, the product range was expanded to include several new brands, which temporarily resulted in a **negative ratio** as incoming stock volumes increased to accommodate the broader assortment.
+
+**comparison of reception between years**
+
+| Store | 2017 |  2018  | 2019  |  2020  | 2021  | 2022  |  2023  | 2024  | 2025 |
+| :---: | :--: | :----: | :---: | :----: | :---: | :---: | :----: | :---: | :--: |
+| T1/T2 |  -   | -16,3% | 14,4% | -52,2% | -9,7% | 16,4% | -17,6% | 21,5% |      |
