@@ -96,9 +96,9 @@ This improvement clearly demonstrates the **effectiveness of newly introduced or
 **YOY growth %**
 | Store | 2015 | 2016 | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
 | :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :---: | :--: | :--: |
-| T1 | 0 | 40% | -13% | 5% | 6% | **-40%** | -2% | -6% | **-100%** | 30% | |
-| T2 | - | - | 0 | 52% | 8% | **-42%** | 15% | 28% | 7% | -4% | |
-| T3 | - | - | - | - | - | - | - | 0 | 39% | -93% | - |
+| `T1` | 0 | 40% | -13% | 5% | 6% | **-40%** | -2% | -6% | **-100%** | 30% | |
+| `T2` | - | - | 0 | 52% | 8% | **-42%** | 15% | 28% | 7% | -4% | |
+| `T3` | - | - | - | - | - | - | - | 0 | 39% | -93% | - |
 
 _Store T1 Performance Analysis_
 
@@ -118,19 +118,19 @@ Just like Store T1, Store T2 was affected by the COVID-19 restrictions, which fo
 
 The main goal for the store in the coming years is to maintain the current level of turnover while optimizing costs related to inventory management.
 
-**comparison volume of revenues t2 vs t1(t3)**
+_comparison volume of revenues t2 vs t1(t3)_
 
 | Store | 2015 | 2016 | 2017  | 2018  | 2019  | 2020  | 2021 | 2022 | 2023  | 2024 | 2025 |
 | :---: | :--: | :--: | :---: | :---: | :---: | :---: | :--: | :--: | :---: | :--: | :--: |
-|  T2   |  -   |  -   | 17,3% | 31.6% | 33.5% | 31.3% | 43%  | 36%  | 43.3% | 53%  |      |
+| `T2`  |  -   |  -   | 17,3% | 31.6% | 33.5% | 31.3% | 43%  | 36%  | 43.3% | 53%  |      |
 
 **Goods reciepts**
 
-**comparison in vs out**
+_Comparison in vs out_
 
-| Store | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
-| :---: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
-| T1/T2 | -52% | 15%  | 15%  | -8%  |  4%  | 12%  | 32%  | -6%  |      |
+|  Store  | 2017 | 2018 | 2019 | 2020 | 2021 | 2022 | 2023 | 2024 | 2025 |
+| :-----: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: | :--: |
+| `T1/T2` | -52% | 15%  | 15%  | -8%  |  4%  | 12%  | 32%  | -6%  |      |
 
 The results of the comparison between items received into stock and items sold show a generally healthy ratio over the years. In the last three years, the ratio has stabilized at approximately **1 : 1.23**, meaning that for every item received, 1.23 items are sold. This indicates that older inventory from previous years is being successfully sold off.
 
@@ -138,8 +138,32 @@ The extreme value observed at the beginning of the analyzed period was caused by
 
 Due to the **strong performance in 2023**, the product range was expanded to include several new brands, which temporarily resulted in a **negative ratio** as incoming stock volumes increased to accommodate the broader assortment.
 
-**comparison of reception between years**
+_comparison of reception between years_
 
-| Store | 2017 |  2018  | 2019  |  2020  | 2021  | 2022  |  2023  | 2024  | 2025 |
-| :---: | :--: | :----: | :---: | :----: | :---: | :---: | :----: | :---: | :--: |
-| T1/T2 |  -   | -16,3% | 14,4% | -52,2% | -9,7% | 16,4% | -17,6% | 21,5% |      |
+|  Store  | 2017 |  2018  | 2019  |  2020  | 2021  | 2022  |  2023  | 2024  | 2025 |
+| :-----: | :--: | :----: | :---: | :----: | :---: | :---: | :----: | :---: | :--: |
+| `T1/T2` |  -   | -16,3% | 14,4% | -52,2% | -9,7% | 16,4% | -17,6% | 21,5% |      |
+
+At the beginning of the observed period, the number of ordered items ranged between **12,000 and 13,000 units**. Over time, this figure was successfully reduced to approximately **8,000–10,000** units.
+
+Throughout the analyzed period, there are noticeable fluctuations and inconsistencies in the values, as shown in the data table. However, it is important to consider external factors that significantly influenced these extreme variations, as well as the lack of a consistent ordering system during the company’s early years.
+
+<br>
+
+**Recommendations**
+
+1. Define order limits for each brand based on historical sales data to prevent overstocking and ensure optimal capital allocation.
+
+2. Unify and standardize data across all systems to improve accuracy, simplify reporting, and enable more efficient analytical workflows.
+
+3. Maintain continuous data quality control through automated validation scripts in Python or SQL triggers to prevent missing or inconsistent entries.
+
+4. Implement regular reporting on key metrics such as sales-to-stock ratio, turnover rate, and year-over-year growth.
+
+5. Evaluate store performance separately to identify location-based trends and tailor marketing or stock strategies accordingly.
+
+6. Establish a central SQL database for integrated access from all departments and to support BI tools like Power BI or Tableau.
+
+7. Review supplier terms to benefit from early payment discounts and reduce financial penalties from delayed payments.
+
+8. Continue process automation (ETL, data cleaning, reporting) to reduce manual work and human error.
