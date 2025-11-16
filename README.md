@@ -106,7 +106,7 @@ The result of the project is a clean and structured SQL database that allows for
 ✅ Data integration completed <br>
 ✅ Data cleaning and enrichment done <br>
 🚧 Power BI dashboard (in progress)<br>
-📜 Report (in progress)
+✅ Report
 
 ## Preview database
 
