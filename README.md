@@ -111,3 +111,8 @@ The result of the project is a clean and structured SQL database that allows for
 ## Preview database
 
 ![Database - preview](screenShots/database.png)
+
+## Dashboard preview
+
+![Dashboard - preview](screenShots/sales.png)
+![](screenShots/reception.png)
