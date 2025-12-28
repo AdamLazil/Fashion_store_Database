@@ -3,6 +3,8 @@
 
 -- Table or view only for prijem 
 
+
+
 create materialized view reception as
 	select
 		 m.group_name,
@@ -21,7 +23,7 @@ create materialized view reception as
 	join clothes_code cc on m.clothes_code = cc.code
     where m.form_code = 6; 
 
-
+SELECT * FROM reception;
 
 
 -----

@@ -106,7 +106,33 @@ copy p_sales_items_21_25_new (
 from 'C:\Program Files\PostgreSQL\17\data\TopFashion\mergedCleanToSql\prodejpol21_25clean.csv'
 with(format csv, header, delimiter ';', encoding 'win1250');
 
+------- adding rest of the data 25
 
+truncate table staging_salesItem25rest;
+
+create table staging_salesItem25rest (
+	id integer,
+	ref_id integer,
+	item_name varchar,
+	item_code integer,
+	item_color_code integer,
+	price_brutto decimal(10,2),
+	price_discount integer,
+	price_netto decimal(10,2),
+	price_dph decimal(10,2),
+	price_brutto_bd decimal(10,2), -- price netto before discount 
+	datcreate timestamp,
+	datsave timestamp
+);
+
+copy staging_salesItem25rest
+from 'C:\Program Files\PostgreSQL\17\data\TopFashion\mergedCleanToSql\prodejpo25cleanRest.csv'
+with (format csv, header, delimiter ';',encoding 'win1250');
+
+insert into p_sales_items_21_25_new 
+select * from staging_salesItem25rest;
+
+-------
 
 
 -- movement table
@@ -145,7 +171,41 @@ copy movements_all
 from 'C:\Program Files\PostgreSQL\17\data\TopFashion\mergedCleanToSql\item_movements.csv'
 with (format csv, header, delimiter ';', encoding 'win1250');
 
+------ adding rest of the data 25
 
+truncate table staging_movements25;
+
+create table staging_movements25 (
+form_code smallint,
+form_name text,
+group_code smallint,
+group_name varchar(10),
+establishment text,
+ids_type int, -- mainly for brand st,c
+ean_code bigint,
+product_name varchar,
+ids_color varchar, -- code for colors
+movement_code smallint,
+movement_name text,
+date timestamp, -- include wrong data. Musst be join to the reciept_date
+amount int,
+price_clean decimal(10,2),
+price_buy decimal(10,2),
+amount_left int,
+reciept_id varchar(15), -- connection for other tables
+control_type text, -- type of clothes for ST,C for control purpase
+name_norm text,
+brand text,
+product_norm text, -- control value for code
+clothes_code smallint
+);
+
+copy staging_movements25
+from 'C:\Program Files\PostgreSQL\17\data\TopFashion\mergedCleanToSql\pohyb_25_restbrand.csv'
+with (format csv, header, delimiter ';', encoding 'win1250');
+
+insert into movements_all 
+select * from staging_movements25;
 
 
 

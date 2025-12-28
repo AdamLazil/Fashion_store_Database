@@ -206,6 +206,14 @@ with (format csv, header, delimiter ';',encoding 'win1250');
 
 select * from p_sales_21_25_new;
 
+---------- adding rest of the data
+
+
+
+-----------
+
+
+
 select * from p_sales_17_20_old
 where extract(year from reciept_date) = 2017
 and extract(month from reciept_date)= 06;
